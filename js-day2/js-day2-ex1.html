@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>js-day2-ex1</title>
+  </head>
+  <body>
+    <div class="container">
+      <div id="id1" style="width: 100px; margin: 1px">&nbsp;</div>
+      <div id="id2" style="width: 100px; margin: 1px">&nbsp;</div>
+      <div id="id3" style="width: 100px; margin: 1px">&nbsp;</div>
+
+      <button id="buttonId" onclick="changeColors()">Change color</button>
+
+      <script>
+        //First solution
+        // document.getElementById("id1").style.backgroundColor = "purple";
+        // document.getElementById("id2").style.backgroundColor = "blue";
+        // document.getElementById("id3").style.backgroundColor = "green";
+
+        //Second solution
+        const listOfDivs = Array.from(
+          document.querySelectorAll("#id1, #id2, #id3")
+        );
+        const colors = ["black", "yellow", "blue"];
+
+        for (let i = 0; i < listOfDivs.length; i++) {
+          listOfDivs[i].style.backgroundColor = colors[i];
+        }
+
+        function getRandomRGB(id) {
+          const r = Math.floor(Math.random() * 256);
+          const g = Math.floor(Math.random() * 256);
+          const b = Math.floor(Math.random() * 256);
+
+          const rgbColor = "rgb(" + r + "," + g + "," + b + ")";
+          id.style.backgroundColor = rgbColor;
+        }
+
+        function changeColors() {
+          listOfDivs.forEach(getRandomRGB);
+
+          //This works (if getRandomRGB() returns the rgbColor const) but the above is better and shorter
+          // listOfDivs[0].style.backgroundColor = getRandomRGB();
+          // listOfDivs[1].style.backgroundColor = getRandomRGB();
+          // listOfDivs[2].style.backgroundColor = getRandomRGB();
+        }
+      </script>
+    </div>
+  </body>
+</html>
