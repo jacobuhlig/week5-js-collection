@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="container">
+      <ul id="listOfNames"></ul>
+
+      <form id="formDiv">
+        <input id="name-input" />
+        <button id="btn-add">Add name</button>
+        <button id="btn-rm-first">Remove first</button>
+        <button id="btn-rm-last">Remove last</button>
+      </form>
+    </div>
+
+    <script>
+      const arrayOfNames = ["Anders", "Jens", "Oscar", "Michael"];
+
+      function initiateList() {
+        document.getElementById("listOfNames").innerHTML = arrayOfNames
+          .map((name) => `<li>${name}</li>`)
+          .join("");
+      }
+
+      initiateList();
+
+      document.getElementById("btn-add").onclick = (evt) => {
+        evt.preventDefault();
+        const newName = document.getElementById("name-input").value;
+        arrayOfNames.push(newName);
+        initiateList();
+      };
+
+      document.getElementById("btn-rm-first").onclick = (evt) => {
+        evt.preventDefault();
+        arrayOfNames.shift();
+        initiateList();
+      };
+
+      document.getElementById("btn-rm-last").onclick = (evt) => {
+        evt.preventDefault();
+        arrayOfNames.pop();
+        initiateList();
+      };
+    </script>
+  </body>
+</html>

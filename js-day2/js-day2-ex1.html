@@ -12,7 +12,7 @@
       <div id="id2" style="width: 100px; margin: 1px">&nbsp;</div>
       <div id="id3" style="width: 100px; margin: 1px">&nbsp;</div>
 
-      <button id="buttonId" onclick="changeColors()">Change color</button>
+      <button id="buttonId">Change color</button>
 
       <script>
         //First solution
@@ -39,14 +39,9 @@
           id.style.backgroundColor = rgbColor;
         }
 
-        function changeColors() {
+        document.getElementById("buttonId").onclick = () => {
           listOfDivs.forEach(getRandomRGB);
-
-          //This works (if getRandomRGB() returns the rgbColor const) but the above is better and shorter
-          // listOfDivs[0].style.backgroundColor = getRandomRGB();
-          // listOfDivs[1].style.backgroundColor = getRandomRGB();
-          // listOfDivs[2].style.backgroundColor = getRandomRGB();
-        }
+        };
       </script>
     </div>
   </body>

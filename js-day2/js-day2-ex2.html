@@ -30,11 +30,13 @@
       <div class="my-div" id="div12"></div>
     </div>
     <p id="p-text"></p>
+
     <script>
       document.getElementById("outer").onclick = (evt) => {
         const id = evt.target.id;
-        console.log("Hi from div number: " + id);
-        document.getElementById("p-text").innerText = id;
+        //console.log("Hi from div number: " + id);
+        document.getElementById("p-text").innerText =
+          "Hi from div number: " + id;
       };
     </script>
   </body>
