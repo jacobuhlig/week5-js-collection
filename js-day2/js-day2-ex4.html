@@ -4,20 +4,132 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
     <title>Document</title>
   </head>
   <body>
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
+    <table class="table">
+      <thead id="header">
+        <tr id="headerDiv">
+          <th>ID</th>
+          <th id="header-year">Year</th>
+          <th id="header-make">Make</th>
+          <th id="header-model">Model</th>
+          <th id="header-price">Price</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="tbody"></tbody>
     </table>
+
+    <form>
+      <label for="inputPrice">Price</label><input id="inputPrice" />
+      <button id="btn-priceFilter">Price less than</button>
+      <button id="btn-clearFilter">Clear</button>
+    </form>
+
+    <script>
+      const cars = [
+        { id: 1, year: 1997, make: "Ford", model: "E350", price: 3000 },
+        { id: 2, year: 1999, make: "Chevy", model: "Venture", price: 4900 },
+        { id: 3, year: 2000, make: "Chevy", model: "Venture", price: 5000 },
+        { id: 4, year: 1996, make: "Jeep", model: "Cherokee", price: 4799 },
+        { id: 5, year: 2005, make: "Volvo", model: "V70", price: 44799 },
+      ];
+
+      function insertDataIntoTable(carsToInsert) {
+        const entireTable = carsToInsert
+          .map(
+            (car) => `
+        <tr>
+          <th>${car.id}</th>
+          <th>${car.year}</th>
+          <th>${car.make}</th>
+          <th>${car.model}</th>
+          <th>${car.price}</th>
+        </tr>
+        `
+          )
+          .join("\n");
+        document.getElementById("tbody").innerHTML = entireTable;
+      }
+      insertDataIntoTable(cars);
+
+      document.getElementById("btn-priceFilter").onclick = (evt) => {
+        evt.preventDefault();
+        const inputPrice = document.getElementById("inputPrice").value;
+        if (inputPrice != null) {
+          const arrayOfFilteredCars = cars.filter(
+            (car) => car.price < inputPrice
+          );
+          insertDataIntoTable(arrayOfFilteredCars);
+        }
+      };
+
+      document.getElementById("btn-clearFilter").onclick = () => {
+        insertDataIntoTable(cars);
+      };
+
+      // document.getElementById("header-make").onclick = function () {
+      //   insertDataIntoTable(
+      //     (arrayOfSortedCars = cars.sort((m1, m2) =>
+      //       m1.make < m2.make ? -1 : m1.make > m2.make ? 1 : 0
+      //     ))
+      //   );
+      // };
+
+      let clicked = true;
+
+      function toggle() {
+        clicked = !clicked;
+        console.log("toggled");
+      }
+
+      // document.getElementById("header-price").onclick = function () {
+      //   let res1 = -1;
+      //   let res2 = 1;
+      //   if (!clicked) {
+      //     res1 = 1;
+      //     res2 = -1;
+      //   }
+
+      //   console.log(typeof cars[1].price);
+      //   insertDataIntoTable(
+      //     (arrayOfSortedCars = cars.sort((p1, p2) =>
+      //       p1.price < p2.price ? res1 : p1.price > p2.price ? res2 : 0
+      //     ))
+      //   );
+      //   toggle();
+      // };
+
+      //how to access object properties dynamically (javascript)
+      // --- flex function ---
+      document.getElementById("headerDiv").onclick = (evt) => {
+        const id = evt.target.id;
+
+        const headerValue = id.split("-")[1];
+
+        let res1 = -1;
+        let res2 = 1;
+        if (!clicked) {
+          res1 = 1;
+          res2 = -1;
+        }
+        insertDataIntoTable(
+          (arrayOfSortedCars = cars.sort((x1, x2) =>
+            x1[headerValue] < x2[headerValue]
+              ? res1
+              : x1[headerValue] > x2[headerValue]
+              ? res2
+              : 0
+          ))
+        );
+        toggle();
+      };
+    </script>
   </body>
 </html>
