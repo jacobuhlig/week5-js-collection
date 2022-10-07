@@ -12,13 +12,15 @@
     /> -->
     <title>js-day3-ex1</title>
   </head>
+
+  <!-- Ex1.1 -->
   <body style="font-family: sans-serif">
     <div>
       <div style="font-size: 0">
         <input id="inputTextId" type="text" />
         <button id="getUserId">Get User</button>
       </div>
-      <div id="all-user-content">
+      <div id="single-user-content">
         <table>
           <thread>
             <tr>
@@ -47,7 +49,7 @@
               <td id="zipId">Zip:</td>
             </tr>
             <tr>
-              <td id="geoId">Geo (lat,Ing):</td>
+              <td id="geoId">Geo (lat, lng):</td>
             </tr>
           </thread>
           <tbody id="tbodyId"></tbody>
@@ -59,7 +61,39 @@
       const URL = "https://jsonplaceholder.typicode.com/users/";
       document.getElementById("getUserId").onclick = getUser;
 
-      function getUser() {}
+      function getUser() {
+        const id = document.getElementById("inputTextId").value;
+        fetch(URL + id)
+          .then((res) => {
+            if (!res.ok) {
+              return Promise.reject("Could not find user");
+            }
+            return res.json();
+          })
+          .then((user) => {
+            const content = document.getElementById("single-user-content");
+            document.getElementById("nameId").innerText = "Name: " + user.name;
+            document.getElementById("phoneId").innerText =
+              "Phone: " + user.phone;
+
+            document.getElementById("streetId").innerText =
+              "Street: " + user.address.street;
+            document.getElementById("cityId").innerText =
+              "City: " + user.address.city;
+            document.getElementById("zipId").innerText =
+              "Zip: " + user.address.zipcode;
+            document.getElementById("geoId").innerText =
+              "Geo (lat, lng): " +
+              user.address.geo.lat +
+              ", " +
+              user.address.geo.lng;
+          })
+          .catch((e) => {
+            console.log("Error", e);
+            const node = document.getElementById("error");
+            node.innerText = e;
+          });
+      }
     </script>
   </body>
 </html>
