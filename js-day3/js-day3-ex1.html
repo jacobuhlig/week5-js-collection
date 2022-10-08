@@ -14,7 +14,7 @@
   </head>
 
   <!-- Ex1.1 -->
-  <body style="font-family: sans-serif">
+  <!-- <body style="font-family: sans-serif">
     <div>
       <div style="font-size: 0">
         <input id="inputTextId" type="text" />
@@ -93,6 +93,127 @@
             const node = document.getElementById("error");
             node.innerText = e;
           });
+      }
+    </script>
+  </body> -->
+
+  <body style="font-family: sans-serif">
+    <div>
+      <div style="font-size: 0">
+        <input id="inputTextId" type="text" />
+        <button id="getUserId">Get User</button>
+        <button id="getAllId">Get All</button>
+      </div>
+      <div id="single-user-content" style="display: none">
+        <table>
+          <thread>
+          <thread>
+            <tr>
+              <td id="nameId">Name:</td>
+            </tr>
+            <tr>
+              <td id="phoneId">Phone:</td>
+            </tr>
+          </thread>
+        </table>
+
+        <p></p>
+
+        <table>
+          <tr>
+            <td><b>Address</b></td>
+          </tr>
+          <thread>
+            <tr>
+              <td id="streetId">Street:</td>
+            </tr>
+            <tr>
+              <td id="cityId">City:</td>
+            </tr>
+            <tr>
+              <td id="zipId">Zip:</td>
+            </tr>
+            <tr>
+              <td id="geoId">Geo (lat, lng):</td>
+            </tr>
+          </thread>
+          <tbody id="tbodyId"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="all-user-content" style="display: none">
+      <table>
+        <thread>
+          <tr>
+            <td>Name</td>
+          </tr>
+          <tr>
+            <td>Phone</td>
+          </tr>
+        </thread>
+        <tbody id="tbodyId"></tbody>
+      </table>
+
+    </div>
+  </div>
+
+    <script>
+      const URL = "https://jsonplaceholder.typicode.com/users/";
+      document.getElementById("getUserId").onclick = getUser;
+      document.getElementById("getAllId").onclick = getAll;
+
+      function getUser() {
+        const id = document.getElementById("inputTextId").value;
+        document.getElementById("all-user-content").style.display = "none"
+        document.getElementById("single-user-content").style.display = "block"
+        fetch(URL + id)
+          .then((res) => {
+            if (!res.ok) {
+              return Promise.reject("Could not find user");
+            }
+            return res.json();
+          })
+          .then((user) => {
+            const content = document.getElementById("single-user-content");
+            document.getElementById("nameId").innerText = "Name: " + user.name;
+            document.getElementById("phoneId").innerText =
+              "Phone: " + user.phone;
+
+            document.getElementById("streetId").innerText =
+              "Street: " + user.address.street;
+            document.getElementById("cityId").innerText =
+              "City: " + user.address.city;
+            document.getElementById("zipId").innerText =
+              "Zip: " + user.address.zipcode;
+            document.getElementById("geoId").innerText =
+              "Geo (lat, lng): " +
+              user.address.geo.lat +
+              ", " +
+              user.address.geo.lng;
+          })
+          .catch((e) => {
+            console.log("Error", e);
+            const node = document.getElementById("error");
+            node.innerText = e;
+          });
+      }
+
+      function getAll() {
+        const id = document.getElementById("single-user-content").style.display = "none"
+        fetch(URL)
+          .then(res => res.json())
+          .then(users => {
+            const rows = users.map(u => `
+            <tr>
+              <td>${u.name}</td>
+              <td>${u.phone}</td>
+              </tr>
+            `).join("")
+          
+          document.getElementById("all-user-content").style = "block"
+          document.getElementById("tbody").innerHTML = rows
+          })
       }
     </script>
   </body>
